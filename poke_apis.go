@@ -31,7 +31,7 @@ func NewCLient() *Client {
 	}
 }
 
-func (c *Client) getLocations(requestURL *string) (LocationAreaResponse, error) {
+func (c *Client) GetLocations(requestURL *string) (LocationAreaResponse, error) {
 	if requestURL != nil {
 		url = *requestURL
 	}
