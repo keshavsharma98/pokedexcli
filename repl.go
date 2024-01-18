@@ -7,10 +7,15 @@ import (
 	"strings"
 )
 
+type config struct {
+	nextPageURL *string
+	prevPageURL *string
+}
+
 type cliCommand struct {
 	name        string
 	description string
-	callback    func()
+	callback    func(*config) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -25,6 +30,16 @@ func getCommands() map[string]cliCommand {
 			description: "Exit the Pokedex",
 			callback:    callbackExit,
 		},
+		"map": {
+			name:        "map",
+			description: "Below are the next 20 locations:",
+			callback:    callbackMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Below are the prev 20 locations",
+			callback:    callbackMapb,
+		},
 	}
 }
 
@@ -35,7 +50,7 @@ func cleanCommand(command string) string {
 }
 
 func StartRepl() {
-
+	config := config{}
 	input := bufio.NewReader(os.Stdin)
 
 	for {
@@ -60,6 +75,9 @@ func StartRepl() {
 			continue
 		}
 
-		c.callback()
+		err = c.callback(&config)
+		if err != nil {
+			fmt.Println(fmt.Errorf("error executing command map: %s", err))
+		}
 	}
 }
