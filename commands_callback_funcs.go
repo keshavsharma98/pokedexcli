@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/keshavsharma98/pokedexcli/poke_apis"
+	"github.com/keshavsharma98/pokedexcli/poke_apis/poke_apis"
 )
 
 func callbackHelp(config *config) error {

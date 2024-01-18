@@ -1,4 +1,4 @@
-package main
+package poke_apis
 
 import (
 	"encoding/json"
