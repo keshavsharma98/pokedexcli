@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/keshavsharma98/pokedexcli/poke_apis/poke_apis"
+	"github.com/keshavsharma98/pokedexcli/internal-modules/poke_apis"
 )
 
 func callbackHelp(config *config) error {
@@ -26,7 +26,7 @@ func callbackExit(config *config) error {
 }
 
 func callbackMap(config *config) error {
-	client := poke_apis.NewClient()
+	client := poke_apis.NewCLient()
 	result, err := client.GetLocations(config.nextPageURL)
 	if err != nil {
 		log.Fatalln(err)
@@ -45,7 +45,7 @@ func callbackMapb(config *config) error {
 		return errors.New("you are on the first page")
 	}
 
-	client := poke_apis.NewClient()
+	client := poke_apis.NewCLient()
 	result, err := client.GetLocations(config.prevPageURL)
 	if err != nil {
 		log.Fatalln(err)
