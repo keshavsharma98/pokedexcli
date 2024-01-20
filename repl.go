@@ -7,11 +7,6 @@ import (
 	"strings"
 )
 
-type config struct {
-	nextPageURL *string
-	prevPageURL *string
-}
-
 type cliCommand struct {
 	name        string
 	description string
@@ -49,8 +44,7 @@ func cleanCommand(command string) string {
 	return command
 }
 
-func StartRepl() {
-	config := config{}
+func StartRepl(config *config) {
 	input := bufio.NewReader(os.Stdin)
 
 	for {
@@ -75,7 +69,7 @@ func StartRepl() {
 			continue
 		}
 
-		err = c.callback(&config)
+		err = c.callback(config)
 		if err != nil {
 			fmt.Println(fmt.Errorf("error executing command map: %s", err))
 		}
