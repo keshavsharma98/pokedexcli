@@ -10,7 +10,7 @@ import (
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, ...string) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -22,7 +22,7 @@ func getCommands() map[string]cliCommand {
 		},
 		"exit": {
 			name:        "exit",
-			description: "Exit the Pokedex",
+			description: "Exit the PokedexCli",
 			callback:    callbackExit,
 		},
 		"map": {
@@ -35,13 +35,33 @@ func getCommands() map[string]cliCommand {
 			description: "Below are the prev 20 locations",
 			callback:    callbackMapb,
 		},
+		"explore": {
+			name:        "explore {location_name}",
+			description: "Shows all Pokemon in the given location",
+			callback:    callbackExplore,
+		},
+		"catch": {
+			name:        "catch {pokemon_name}",
+			description: "Catches the given pokemon and adds them to users pokedex.",
+			callback:    callbackCatch,
+		},
+		"inspect": {
+			name:        "inspect {pokemon_name}",
+			description: "Shows the details of the given pokemon if caught",
+			callback:    callbackInspect,
+		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "Shows all pokemon caught by the user",
+			callback:    callbackPokedex,
+		},
 	}
 }
 
-func cleanCommand(command string) string {
-	command = strings.TrimSpace(command)
-	command = strings.ToLower(command)
-	return command
+func cleanCommand(cmd string) []string {
+	cmd = strings.TrimSpace(cmd)
+	cmd = strings.ToLower(cmd)
+	return strings.Fields(cmd)
 }
 
 func StartRepl(config *config) {
@@ -55,7 +75,9 @@ func StartRepl(config *config) {
 			return
 		}
 
-		command = cleanCommand(command)
+		cleancmd := cleanCommand(command)
+		command = cleancmd[0]
+		args := cleancmd[1:]
 
 		commands := getCommands()
 
@@ -69,9 +91,9 @@ func StartRepl(config *config) {
 			continue
 		}
 
-		err = c.callback(config)
+		err = c.callback(config, args...)
 		if err != nil {
-			fmt.Println(fmt.Errorf("error executing command map: %s", err))
+			fmt.Println(fmt.Errorf("error executing command %s: %s", command, err))
 		}
 	}
 }
