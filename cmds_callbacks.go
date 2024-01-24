@@ -9,7 +9,7 @@ import (
 
 func callbackHelp(config *config, args ...string) error {
 	fmt.Println("Welcome, below are the available commands:")
-	commands := getCommands()
+	commands := GetCommands()
 
 	for _, value := range commands {
 		fmt.Println(value.name+": ", value.description)
@@ -18,6 +18,12 @@ func callbackHelp(config *config, args ...string) error {
 }
 
 func callbackExit(config *config, args ...string) error {
+	fmt.Println("Saving Game...")
+	err := config.pokeapiClient.SaveGame()
+	if err != nil {
+		return err
+	}
+	fmt.Println("Game Saved")
 	fmt.Println("Exiting Pokedexcli")
 	os.Exit(0)
 	return nil
@@ -146,6 +152,18 @@ func callbackPokedex(config *config, args ...string) error {
 	for _, pokemon := range pokemons {
 		fmt.Println("	-", pokemon)
 	}
+
+	return nil
+}
+
+func callbackSave(config *config, args ...string) error {
+	err := config.pokeapiClient.SaveGame()
+	if err != nil {
+		log.Fatalln(err)
+		return err
+	}
+
+	fmt.Println("Game saved")
 
 	return nil
 }

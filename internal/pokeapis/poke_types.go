@@ -34,7 +34,9 @@ type Pokemon struct {
 }
 
 type User struct {
-	Pokedex map[string]Pokemon
+	Name     string
+	Password string
+	Pokedex  map[string]Pokemon
 }
 
 type LocationsApiResponse struct {
