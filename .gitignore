@@ -1,2 +1,9 @@
-.exe
-.gitignore
+# .gitignore
+
+# Exclude the .env file
+.env
+
+# Exclude the pokedexcli.exe file 
+pokedexcli.exe
+
+progress.txt
