@@ -10,7 +10,6 @@ import (
 func StartRepl(config *config) {
 	input := bufio.NewReader(os.Stdin)
 	fmt.Print("                            ****** WELCOME TO POKEDEX ******\n\n\n")
-	// fmt.Println("Type login to login to your account or type register to register a new account")
 	err := config.pokeapiClient.LoadGame()
 	if err != nil {
 		log.Fatalln("Error loading game: ", err)
